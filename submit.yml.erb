@@ -1,0 +1,75 @@
+<%
+  # your image location will differ
+  ppn = num_cores.blank? ? 1 : num_cores.to_i
+  walltime = (bc_num_hours.to_i * 60)
+  
+  if slurm_partition.include?("gengpu")
+     node_type = "GPU"
+  else
+     node_type = "CPU"
+  end
+  
+  case node_type
+  when "CPU"
+   slurm_args = ["--nodes", "#{number_of_nodes}", "--ntasks", "#{ppn}", "--time", "#{walltime}", "--partition", "#{slurm_partition}", "--job-name", "#{job_name}", "--account", "#{slurm_account}","--mem" , "#{memory_per_node}G" ]
+  when "GPU"
+   slurm_args = ["--nodes", "#{number_of_nodes}", "--ntasks", "#{ppn}", "--time", "#{walltime}", "--partition", "#{slurm_partition}", "--job-name", "#{job_name}", "--account", "#{slurm_account}","--mem" , "#{memory_per_node}G", "--gres", "#{gres_value}" ]
+  end
+%>
+---
+batch_connect:
+  template: basic
+  websockify_cmd: '/usr/bin/websockify'
+  script_wrapper: |
+    module purge
+    module load singularity
+    cat << "CTRSCRIPT" > container.sh
+    export PATH="$PATH:/opt/TurboVNC/bin"
+    %s  
+    CTRSCRIPT
+
+    export container_image=/projects/a9009/sbc538/Projects/OpenOnDemand/jupyter/jupyter-ood.sif
+
+    # Benchmark info
+    echo "TIMING - Starting jupyter at: $(date)"
+
+    # Launch the Jupyter Notebook Server
+
+    JUPYTER_TMPDIR=${TMPDIR:-/tmp}/$(id -un)-jupyter/
+    ## for conda
+    export SINGULARITYENV_CONDA_PKGS_DIRS=${HOME}/.conda/pkgs
+    ## for pip
+    export SINGULARITYENV_XDG_CACHE_HOME=${JUPYTER_TMPDIR}/xdg_cache_home
+    ## job specific tmp in case there are conflicts with different users running on the same node
+    WORKDIR=${HOME}/jupyter/${SLURM_JOB_ID}
+
+    mkdir -m 700 -p ${WORKDIR}/tmp
+
+    ## for specific package mne
+    export SINGULARITYENV_NUMBA_CACHE_DIR=$HOME/.cache
+
+    # enable this only if needed for debug purpose. note that the password will appear in the output 
+    # set -x
+
+    export SING_GPU=""
+
+    <%- if !context.custom_num_gpus.to_i.zero? -%>
+    export SING_GPU="--nv"
+    <%- end -%>
+
+    ## bind some extra stuff to be able to talk to slurm from within the container
+    export SING_BINDS=" -B /etc/nsswitch.conf -B /etc/sssd/ -B /var/lib/sss -B /etc/slurm -B /slurm -B /var/run/munge  -B `which sbatch ` -B `which srun ` -B `which sacct ` -B `which scontrol ` -B `which salloc `  -B /usr/lib64/slurm/ "
+
+    ## job specific tmp dir
+    export SING_BINDS=" $SING_BINDS -B ${WORKDIR}/tmp:/tmp " 
+
+    singularity exec $SING_BINDS "${container_image}" /bin/bash container.sh
+
+  header: | 
+    #!/bin/bash
+        . ~/.bashrc
+script:
+  native:
+  <%- slurm_args.each do |arg| %>
+    - "<%= arg %>"
+  <%- end %>

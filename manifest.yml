@@ -1,0 +1,10 @@
+---
+name: Jupyter Notebook
+icon: fa://jupyter
+category: Interactive Apps
+subcategory: Servers
+role: batch_connect
+description: |
+  This app will launch [Jupyter Notebook] on a compute node on the Quest. 
+
+  [Jupyter Notebook]: https://jupyter.org/
