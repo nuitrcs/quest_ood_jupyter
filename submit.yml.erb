@@ -37,7 +37,12 @@ batch_connect:
     ## for specific package mne
     export SINGULARITYENV_NUMBA_CACHE_DIR=$HOME/.cache
 
+    ## Need to add the --nv flag if we are running on a GPU
+    <%- if gres_value != "" %>
     export SING_GPU="--nv"
+    <%- else %>
+    export SING_GPU=""
+    <%- end %>
 
     # All our software in /software so have to bind that
     export SING_BINDS="--bind /software:/software"
