@@ -6,13 +6,6 @@ echo "TIMING - Starting main script at: $(date)"
 # Set working directory to home directory
 cd "${HOME}"
 
-jupyter notebook \
-           --ip='0.0.0.0' \
-           --port=${MY_JUP_PORT} \
-           --port-retries=0 \
-           --NotebookApp.password="${MY_JUP_PASSWD}" \
-           --NotebookApp.base_url="${MY_JUP_BASEURL}" \
-           --no-browser \
-           --NotebookApp.allow_origin='*' \
-           --NotebookApp.disable_check_xsrf=True \
-           --WebPDFExporter.disable_sandbox=True
+eval "$(/miniconda/bin/conda shell.bash hook)"
+
+jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}"

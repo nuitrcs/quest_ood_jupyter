@@ -1,10 +1,10 @@
 ---
-name: Jupyter Notebook
-icon: fa://jupyter
+name: Jupyter
+icon: fa://python
 category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: |
-  This app will launch [Jupyter Notebook] on a compute node on the Quest. 
+  This app will launch [Jupyter] Notebook or Lab on a compute node on the Quest. 
 
-  [Jupyter Notebook]: https://jupyter.org/
+  [Jupyter]: https://jupyter.org/

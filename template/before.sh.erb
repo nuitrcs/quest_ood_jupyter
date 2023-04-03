@@ -52,15 +52,7 @@ c.NotebookApp.password = u'sha1:${SALT}:${PASSWORD_SHA1}'
 c.NotebookApp.base_url = '/node/${host}/${port}/'
 c.NotebookApp.open_browser = False
 c.NotebookApp.allow_origin = '*'
-c.NotebookApp.notebook_dir = '${HOME}'
+c.NotebookApp.notebook_dir = '<%= context.notebook_directory_root == "" ? "${HOME}" : context.notebook_directory_root %>'
 c.NotebookApp.disable_check_xsrf = True
 EOL
 )
-
-## For some reason with the current version of jupyter, if we use the config.py file to configure the notebook, the package nb_conda_kernels does not seem to work correctly.
-#  We will temporarily pass those attributes as command line arguments 
-export MY_JUP_PORT=${port}
-export MY_JUP_PASSWD=sha1:${SALT}:${PASSWORD_SHA1}
-export MY_JUP_BASEURL=/node/${host}/${port}/
-export JOBROOT=$PWD
-
