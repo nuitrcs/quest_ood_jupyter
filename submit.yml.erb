@@ -72,8 +72,10 @@ batch_connect:
 script:
    email_on_started: true
    native:
+     # What partition is the user submitting to
      - "--partition"
      - "<%= slurm_partition %>"
+     # Under what account is the user submitting this job
      - "--account"
      - "<%= slurm_account %>"
      # How much time (in hours)
@@ -91,10 +93,12 @@ script:
      # Job Name
      - "--job-name"
      - "<%= job_name %>"
+     # If the user supplies an e-mail, then they will get an e-mail when the job begins
      <%- if user_email != "" %>
      - "--mail-user"
      - "<%= user_email %>"
      <%- end %>
+     # If the user requested a GPU, then we need to add this argument to our job submit command
      <%- if gres_value != "" %>
      - "--gres"
      - "<%= gres_value %>"
