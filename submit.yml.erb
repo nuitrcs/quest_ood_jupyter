@@ -70,7 +70,9 @@ batch_connect:
     #!/bin/bash
         . ~/.bashrc
 script:
+   <%- if user_email != "" %>
    email_on_started: true
+   <%- end %>
    native:
      # What partition is the user submitting to
      - "--partition"
@@ -82,8 +84,13 @@ script:
      - "--time"
      - "<%= walltime %>"
      # How many nodes (always 1)
+     <%- if number_of_nodes != "" %>
+     - "--nodes"
+     - "<%= number_of_nodes %>"
+     <%- else %>
      - "--nodes"
      - "1"
+     <%- end %>
      # How many CPUs
      - "--ntasks-per-node"
      - "<%= ppn %>"
