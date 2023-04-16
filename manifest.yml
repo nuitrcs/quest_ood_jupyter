@@ -9,10 +9,10 @@ description: |
 
   The Jupyter session can use IPython Kernels that you have created yourself on Quest. For details on how to do this, please see the instructions on [Running Jupyter Notebook on Quest].
 
-  This Jupyter instance comes with a single pre-built Kernel called `ml-data-science-kernel-py310` and contains the following major Python packages.
+  This Jupyter instance comes with a single pre-built Kernel called `ml-data-science-kernel-py310` and was creating using the following command:
 
   ```
-  tensorflow pytorch python=3.10 seaborn h5py numba pandas matplotlib ipykernel scikit-learn scikit-image openpyxl sqlalchemy numexpr cudatoolkit=11.2
+  CONDA_OVERRIDE_CUDA="11.2" mamba create --name ml-data-science-kernel-py310 -c conda-forge tensorflow pytorch python=3.10 seaborn h5py numba pandas matplotlib ipykernel scikit-learn scikit-image openpyxl sqlalchemy numexpr pyspark dask spacy transformers cudatoolkit=11.2 --yes
   ```
 
   [Jupyter]: https://jupyter.org/
