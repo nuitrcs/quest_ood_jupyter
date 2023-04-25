@@ -1,6 +1,6 @@
 ---
 name: Jupyter
-icon: fa://python
+icon: fa://server
 category: Interactive Apps
 subcategory: Servers
 role: batch_connect
@@ -12,7 +12,11 @@ description: |
   This Jupyter instance comes with a single pre-built Kernel called `ml-data-science-kernel-py310` and was creating using the following command:
 
   ```
-  CONDA_OVERRIDE_CUDA="11.2" mamba create --name ml-data-science-kernel-py310 -c conda-forge tensorflow pytorch python=3.10 seaborn h5py numba pandas matplotlib ipykernel scikit-learn scikit-image openpyxl sqlalchemy numexpr pyspark dask spacy transformers cudatoolkit=11.2 --yes
+  CONDA_OVERRIDE_CUDA="11.2" mamba create --name ml-data-science-kernel-py310 -c conda-forge \
+  tensorflow pytorch python=3.10 \
+  seaborn h5py numba pandas matplotlib ipykernel scikit-learn \
+  scikit-image openpyxl sqlalchemy numexpr \
+  pyspark dask spacy transformers cudatoolkit=11.2 --yes
   ```
 
   [Jupyter]: https://jupyter.org/
