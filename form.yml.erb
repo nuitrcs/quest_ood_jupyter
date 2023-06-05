@@ -45,33 +45,33 @@ attributes:
     value: "Jupyter Notebook"
 
   notebook_directory_root:
-    label: "Directory to launch Jupyter from"
+    label: "Jupyter root directory (Optional)"
     value: ""
     help: |
-      If you leave this blank, Jupyter will run from your HOME folder. Otherwise, specify a full PATH to a folder on Quest.
+      If you leave this blank, Jupyter will run from your HOME folder. Otherwise, specify a full PATH to a folder on Quest. This is important to consider if running Jupyter Notebook as it limits the folders and files that Jupyter can see.
 
   bc_num_hours:
-    label: "Wall Clock Time"
+    label: "Wall Time (in number of hours)"
     help: |
-      The maximum number of hours the Jupyter sessions will run for. You can always terminate your jupyter session early, but it will automatically be terminated by Slurm once the walltime is hit.
+      Select the maximum number of *hours* you want this session/job to last. You can always terminate your session/job early, but it will automatically be terminated by Slurm once the walltime is hit. This will set the value of the `--time` flag for your job. Your available options for walltime are effected by the partition that you have selected. For more information on walltimes, please see the [walltime section](https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1964#section-walltimes) of our Everything You Need to Know about Using Slurm on Quest page.
     value: 1
 
   slurm_partition: 
     label: "SLURM Partition"
     help: |
-      The SLURM partition you want to submit to. This selection will influence which accounts you can choose as some partition can only be submitted to through certain accounts.
+      Select the SLURM partition you will submit this job to. This will set the value of the `-p` or `--partition` flag for your job. This selection will impact a number of other options on this form, including which accounts/allocations and maximum walltimes you can choose and whether or not you have the option to select GPUs. For more information on partitions, please see the [partitions section](https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1964#section-partitions) of our Everything You Need to Know about Using Slurm on Quest page.
     widget: select
 
   slurm_account:
-    label: "SLURM Account/Project Name"
+    label: "SLURM Account"
     help: |
-      The SLURM account (i.e., the value of the -A or --account flag used when submitting a SLURM job).
+      The Quest allocation/account under which you will be submitting this job. This will set the value of the `-A` or `--account` flag for your job. More information on this parameter can be found in the [account section](https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1964#section-account) of our Everything You Need to Know about Using Slurm on Quest page.
     widget: select
 
   gres_value:
-    label: "Type of GPU that you would like to request"
+    label: "GPU(s) that you would like to request"
     help: |
-      If you are submitting to `gengpu` the only option that you can select is `A100`.
+      The number and type of GPUs you are requesting for this job, only available for certain partitions. This will set the value of the `--gres` flag for your job. More information on GPUs can be found on the [GPUs on Quest page](https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1112).
     widget: select
     default: ""
 
@@ -80,7 +80,7 @@ attributes:
     label: "Number of CPUs/cores/processors"
     value: 1
     help: |
-      Please note that you likely do not need to request more than a single CPU unless you know that your application can be parallelized and also please note that the more cores requested, the longer the wait for the session to start.
+      The number of CPUs you want for this session. This will set the value of the `--ntasks-per-node` flag for your job. Please note that you likely do not need to request more than a single CPU unless you know that your application can be parallelized. Also, please note that the more cores requested, the longer the wait will be for the session to start. For more information on setting the number of cores, please see the [number of cores section](https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1964#section-number-of-cores) of our Everything You Need to Know about Using Slurm on Quest page.
     min: 1
     max: 64
     step: 1
@@ -88,30 +88,26 @@ attributes:
 
   request_more_than_one_node:
     widget: "check_box"
-    label: "Request more than a single node"
+    label: "Request more than a single node (Optional)"
     help: |
-      Only check this box if you are confident that your application of choice can utilize CPUs across
-      more than one node. These applications/packages would include MPI4py, Dask, PySpark, etc.
+      Only check this box if you are confident that your application of choice can utilize CPUs across more than one node. In Python, some of these applications include MPI4py, Dask, and PySpark. Once checked, you will be shown another field where you can request multiple nodes.
 
   number_of_nodes:
     widget: "number_field"
     label: "Number of nodes being requested."
     value: 1
-    help: |
-      Number of nodes.
     min: 1
     step: 1
     id: 'number_of_nodes'
     help: |
-      A reminder to check that your application of choice can utilize CPUs across
-      more than one node. These applications/packages would include MPI4py, Dask, PySpark, etc.
+      How many nodes you want for this session. This will set the value of the `-N/--nodes` flag for your job. A reminder to check that your application of choice can utilize CPUs across more than one node. These applications/packages would include MPI4py, Dask, PySpark, etc. For more information on setting the number of nodes, please see the [number of nodes section](https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1964#section-number-of-nodes) of our Everything You Need to Know about Using Slurm on Quest page.
 
   memory_per_node:
     widget: "number_field"
     label: "Total memory or RAM do you need in GB."
     value: 5
     help: |
-      How much total memory/RAM do you need in GB.
+      How much total memory/RAM (in GBs) you want for this session. This will set the value of the `--mem` flag for your job. Knowing ahead of time how much memory you need can be difficult. For more information on setting memory, please see the [memory section](https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1964#section-required-memory) of our Everything You Need to Know about Using Slurm on Quest page.
     min: 1
     max: 243
     step: 1

@@ -7,12 +7,13 @@ role: batch_connect
 description: |
   This app will launch [Jupyter] Notebook or Lab on a Quest compute node. 
 
-  The Jupyter session can use IPython Kernels that you have created yourself on Quest. For details on how to do this, please see the instructions on [Running Jupyter Notebook on Quest].
+  The Jupyter session can use IPython Kernels that you have created yourself on Quest. For details on how to do this, please see [creating an iPython kernel].
 
   This Jupyter instance comes with a single pre-built Kernel called `ml-data-science-kernel-py310` and was creating using the following command:
 
   ```
-  CONDA_OVERRIDE_CUDA="11.2" mamba create --name ml-data-science-kernel-py310 -c conda-forge \
+  CONDA_OVERRIDE_CUDA="11.2" mamba create \
+  --name ml-data-science-kernel-py310 -c conda-forge \
   tensorflow pytorch python=3.10 \
   seaborn h5py numba pandas matplotlib ipykernel scikit-learn \
   scikit-image openpyxl sqlalchemy numexpr \
@@ -20,4 +21,4 @@ description: |
   ```
 
   [Jupyter]: https://jupyter.org/
-  [Running Jupyter Notebook on Quest]: https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1791
+  [creating an iPython kernel]: https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1791#ipython-kernels
