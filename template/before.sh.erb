@@ -41,6 +41,11 @@ PASSWORD_SHA1="$(echo -n "${password}${SALT}" | openssl dgst -sha1 | awk '{print
 # `script.sh.erb` file when launching the Jupyter Notebook server.
 export CONFIG_FILE="${PWD}/config.py"
 
+# This is for conn_params
+export ssh_tunnel="ssh -L ${port}:localhost:${port} $USER@quest.northwestern.edu ssh -N -L ${port}:localhost:${port} ${host}"
+export connection_string="http://localhost:${port}/node/${host}/${port}/"
+export staged_root=<%= session.staged_root.join("connection.yml") %>
+
 # Generate Jupyter configuration file with secure file permissions
 (
 umask 077

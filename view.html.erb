@@ -3,8 +3,9 @@
   login_url = "#{base_url}/login"
   next_url  = "#{base_url}/#{jupyter_api}"
 
-  full_url="#{login_url}?next=#{CGI.escape(next_url)}"
+  full_url = "#{login_url}?next=#{CGI.escape(next_url)}"
   form_id = "juypyter_form#{login_url.gsub('/', '_')}"
+  jupyter_connection_info = OodAppkit.files.url(path: staged_root).to_s
 %>
 
 <!-- Zoom on iPad doesn't like opening in a new tab. It won't foward the form parameters. -->
@@ -23,3 +24,13 @@
     <i class="fa fa-cogs"></i> Connect to Jupyter
   </button>
 </form>
+<p>
+To connect to this jupyter server in your own local VSCode application, please open a terminal on your local computer and run the following command: <code><%= ssh_tunnel %></code>
+<p>
+<p>
+Once you have done this, go to "Select Another Kernel", then select "Existing Jupyter Server", and paste  following URL: <code><%= connection_string %></code>
+<p>
+<p>
+At this point, you will be asked for a password, which you can find here: <a href="<%= jupyter_connection_info %>">connection.yml</a> 
+<p>
+

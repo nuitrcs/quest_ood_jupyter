@@ -9,6 +9,10 @@
 batch_connect:
   template: basic
   websockify_cmd: '/usr/bin/websockify'
+  conn_params:
+    - ssh_tunnel
+    - connection_string
+    - staged_root
   script_wrapper: |
     module purge
     module load singularity
