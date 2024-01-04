@@ -39,6 +39,7 @@ function convert_gpu_partitions(GRES) {
                 gpu_options.push([gpu_info[0], gpu_info[1], i].join(':'));
             }
         }
+        gpu_options.push('');
     }
     return [...new Set(gpu_options)]
 }
@@ -46,7 +47,7 @@ function convert_gpu_partitions(GRES) {
 function get_associations() {
   const raw_data = $('#batch_connect_session_context_raw_data').val();
   const raw_groups_data = $('#batch_connect_session_context_raw_group_data').val().split(",").filter(x => x);
-  const general_access_allocations = raw_groups_data.filter(x => x.includes("p"))
+  const general_access_allocations = raw_groups_data.filter(x => x.startsWith("p") || x.startsWith("e"))
   const assocs = [];
   // Obtain all unique partition and allocation combinations
   for (const assoc of raw_data.split(" ").filter(x => x)) {
@@ -85,7 +86,8 @@ function get_associations() {
 function replace_options($select, new_options) {
   const old_selection = $select.val();
   $select.empty();
-  new_options.sort().map(option => $select.append($("<option></option>").attr("value", option).text(option)));
+  //new_options.sort().map(option => $select.append($("<option></option>").attr("value", option).text(option)));
+  new_options.map(option => $select.append($("<option></option>").attr("value", option).text(option)));
   if (new_options.includes(old_selection)) {
     $select.val(old_selection);
   }
