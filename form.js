@@ -51,7 +51,7 @@ function get_associations() {
   const assocs = [];
   // Obtain all unique partition and allocation combinations
   for (const assoc of raw_data.split(" ").filter(x => x)) {
-    const [PARTITION, GROUPS, TIMELIMIT, GRES, MEMORY, CPUS] = assoc.split("|");
+    const [PARTITION, GROUPS, TIMELIMIT, GRES, MEMORY, CPUS, FEATURE] = assoc.split("|");
     const groups = raw_groups_data.filter(value => GROUPS.includes(value));
     if (PARTITION.includes("a9009") && raw_groups_data.includes("a9009")) {
         assocs.push({ partition: PARTITION,
@@ -59,7 +59,8 @@ function get_associations() {
                       maxtime : convert_timelimit(TIMELIMIT),
                       gpus: GRES,
                       max_mem: MEMORY,
-                      max_cpus: CPUS});
+                      max_cpus: CPUS,
+                      feature: FEATURE});
     } else if (GROUPS.includes("all") && (general_access_allocations.length !== 0) && (PARTITION !== 'a9009') && (PARTITION !== 'buyin-dev')) {
         for (let gen_access of general_access_allocations) {
             assocs.push({ partition: PARTITION.replace('*', ''),
@@ -67,7 +68,8 @@ function get_associations() {
                           maxtime : convert_timelimit(TIMELIMIT),
                           gpus: GRES,
                           max_mem: MEMORY,
-                          max_cpus: CPUS});
+                          max_cpus: CPUS,
+                          feature: FEATURE});
         }
     } else if (groups.length !== 0) {
         for (const group of groups) {
@@ -76,7 +78,8 @@ function get_associations() {
                           maxtime : convert_timelimit(TIMELIMIT),
                           gpus: GRES,
                           max_mem: MEMORY,
-                          max_cpus: CPUS});
+                          max_cpus: CPUS,
+                          feature: FEATURE});
         }
     }
   }
@@ -195,6 +198,14 @@ function set_available_partitions() {
   replace_options($("#batch_connect_session_context_slurm_partition"), partitions);
 }
 
+function set_available_features() {
+  const assocs = get_associations();
+  const features_with_commas = [...new Set(assocs.map(({ feature }) => feature))];
+  const features_without_commas = [""];
+  for (const feature of features_with_commas) { features_without_commas.push(feature.split(",")); }
+  replace_options($("#batch_connect_session_context_constraint"), [...new Set(features_without_commas.flat())]);
+}
+
 function collapse_help() {
   var help_message = $( '.form-text.text-muted' );
   $.each(help_message, function(index) {
@@ -212,6 +223,7 @@ function collapse_help() {
  *  Install event handlers
  */
 $(document).ready(function() {
+  set_available_features();
   set_available_partitions();
   // Update available options appropriately
   let assocs = update_available_options();
