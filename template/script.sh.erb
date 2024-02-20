@@ -6,6 +6,13 @@ echo "TIMING - Starting main script at: $(date)"
 # Set working directory to home directory
 cd "${HOME}"
 
+export TENSORBOARD_BINARY="/miniconda/envs/ml-data-science-kernel-py310/bin/tensorboard" 
+export TENSORBOARD_PROXY_URL="/node/${host}/${port}/proxy/%PORT%/"
+
 eval "$(/miniconda/bin/conda shell.bash hook)"
 
-jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> --config="${CONFIG_FILE}"
+<%- if context.jupyterlab_switch == "1" %>
+jupyter lab --config="${CONFIG_FILE}"
+<%- else %>
+jupyter nbclassic --config="${CONFIG_FILE}"
+<%- end %>
