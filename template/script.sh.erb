@@ -11,6 +11,11 @@ export TENSORBOARD_PROXY_URL="/node/${host}/${port}/proxy/%PORT%/"
 
 eval "$(/miniconda/bin/conda shell.bash hook)"
 
+if [[ `which conda` != "/miniconda/bin/conda" ]]
+then
+    export PATH="/miniconda/bin:$PATH"
+fi
+
 <%- if context.jupyterlab_switch == "1" %>
 jupyter lab --config="${CONFIG_FILE}"
 <%- else %>
