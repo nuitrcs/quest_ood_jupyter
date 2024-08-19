@@ -36,6 +36,12 @@ batch_connect:
     ## job specific tmp in case there are conflicts with different users running on the same node
     WORKDIR=${HOME}/jupyter/${SLURM_JOB_ID}
 
+    # This will be very helpful to make sure that pytohn packages respect the number of cores a user
+    # actually asked for.
+    export SINGULARITYENV_MKL_NUM_THREADS=${SLURM_NPROCS}
+    export SINGULARITYENV_NUMEXPR_NUM_THREADS=${SLURM_NPROCS}
+    export SINGULARITYENV_OMP_NUM_THREADS=${SLURM_NPROCS}
+
     mkdir -m 700 -p ${WORKDIR}/tmp
 
     ## for specific package mne
