@@ -44,6 +44,41 @@ function convert_gpu_partitions(GRES) {
     return [...new Set(gpu_options)]
 }
 
+function reverse_options($select, new_options) {
+   $select.empty();
+   new_options.map(option => $select.append($("<option></option>").attr("value", option).text(option)));
+}
+
+/**
+  *  Toggle the visibility of the constraint value field
+ */
+function update_constraint_options(assocs) {
+   var constraints_with_commas = [...new Set(assocs.map(({ feature }) => feature))];
+   var constraints_without_commas = [""];
+   for (var constraint of constraints_with_commas) { constraints_without_commas.push(constraint.split(",")); }
+   replace_options($("#batch_connect_session_context_constraint"), [...new Set(constraints_without_commas.flat())]);
+}
+ 
+/**
+ *  If kellogg, set some things
+ */
+function is_kellogg() {
+   if ($("#batch_connect_session_context_slurm_partition").val() === 'kellogg') {
+     toggle_visibility_of_form_group(
+       '#batch_connect_session_context_request_more_than_one_node',
+       false);
+     $("#batch_connect_session_context_constraint").val("rhel8")
+     var gpu_options = [];
+     $("#batch_connect_session_context_gres_value option").each(function(index, item) { gpu_options.push(item.value) });
+     reverse_options($("#batch_connect_session_context_gres_value"), gpu_options.reverse());
+   } else {
+     toggle_visibility_of_form_group(
+       '#batch_connect_session_context_request_more_than_one_node',
+       true);
+   }
+}
+ 
+
 function get_associations() {
   const raw_data = $('#batch_connect_session_context_raw_data').val();
   const raw_groups_data = $('#batch_connect_session_context_raw_group_data').val().split(",").filter(x => x);
@@ -170,7 +205,9 @@ function set_slurm_partition_change_handler() {
   let slurm_partition = $("#batch_connect_session_context_slurm_partition");
   slurm_partition.change(() => {
     let assocs = update_available_options();
+    update_constraint_options(assocs);
     toggle_gres_value_field_visibility(assocs);
+    is_kellogg();
     update_min_max(assocs);
   });
 }
@@ -198,14 +235,6 @@ function set_available_partitions() {
   replace_options($("#batch_connect_session_context_slurm_partition"), partitions);
 }
 
-function set_available_features() {
-  const assocs = get_associations();
-  const features_with_commas = [...new Set(assocs.map(({ feature }) => feature))];
-  const features_without_commas = [""];
-  for (const feature of features_with_commas) { features_without_commas.push(feature.split(",")); }
-  replace_options($("#batch_connect_session_context_constraint"), [...new Set(features_without_commas.flat())]);
-}
-
 function collapse_help() {
   var help_message = $( '.form-text.text-muted' );
   $.each(help_message, function(index) {
@@ -223,12 +252,13 @@ function collapse_help() {
  *  Install event handlers
  */
 $(document).ready(function() {
-  set_available_features();
   set_available_partitions();
   // Update available options appropriately
   let assocs = update_available_options();
   // Ensure that fields are shown or hidden based on what was set in the last session
   toggle_gres_value_field_visibility(assocs);
+  update_constraint_options(assocs);
+  is_kellogg();
   update_min_max(assocs);
   toggle_number_of_nodes_visibility();
   set_slurm_partition_change_handler();
