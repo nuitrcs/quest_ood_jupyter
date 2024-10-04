@@ -21,7 +21,7 @@ batch_connect:
     %s  
     CTRSCRIPT
 
-    export container_image=/software/openondemand/jupyter/jupyter-ood.sif
+    export container_image=<%= default_kernel %>
 
     # Benchmark info
     echo "TIMING - Starting jupyter at: $(date)"

@@ -5,6 +5,8 @@
 cluster: "quests"
 
 form:
+  # Different containers have different kernels installed
+  - default_kernel
   # This allows the user to select which partition they submit to
   - slurm_partition
   # This allows a user to request a GPU
@@ -36,6 +38,16 @@ form:
   - raw_group_data
 
 attributes:
+  default_kernel:
+    label: "Default Kernel Version"
+    help: |
+        There a few virtual desktop options, feel free to try different ones to see which is the best for your GUI.
+    widget: select
+    options:
+      - [ "ml-data-science-kernel-py310", "/software/openondemand/jupyter/jupyter-ood.sif" ]
+      - [ "NicheCompass", "/software/rhel8/quest_ondemand/quest_ood_jupyter/niche-compass/nichecompass_jupyter.sif" ]
+
+
   jupyterlab_switch:
     widget: "check_box"
     label: "Use JupyterLab instead of Jupyter Notebook?"
