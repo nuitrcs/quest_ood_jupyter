@@ -18,6 +18,19 @@ then
     export PATH="/miniconda/bin:$PATH"
 fi
 
+<%- elsif context.default_kernel == "/software/rhel8/quest_ondemand/quest_ood_jupyter/rhel8-jupyter-new-ml-data-science.sif" %>
+
+export TENSORBOARD_BINARY="/miniconda/envs/ml-data-science-kernel-py311/bin/tensorboard"
+export TENSORBOARD_PROXY_URL="/node/${host}/${port}/proxy/%PORT%/"
+
+eval "$(/miniconda/bin/conda shell.bash hook)"
+
+if [[ `which conda` != "/miniconda/bin/conda" ]]
+then
+    export PATH="/miniconda/bin:$PATH"
+fi
+
+
 <%- elsif context.default_kernel == "/software/rhel8/quest_ondemand/quest_ood_jupyter/niche-compass/nichecompass_jupyter.sif" %>
 
 eval "$(/opt/conda/bin/conda shell.bash hook)"
