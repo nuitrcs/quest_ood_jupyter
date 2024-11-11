@@ -11,7 +11,7 @@ description: |
 
   You can now select between pre-installed IPython Kernel options.
 
-  The pre-installed kernel `ml-data-science-kernel-py311` and was creating using the following command and should be used when leveraging the H100 GPUs.
+  The pre-installed kernel `ml-data-science-kernel-py311` and was created using the following command and should be used when leveraging the H100 GPUs.
 
   ```
   CONDA_OVERRIDE_CUDA="12.4" mamba create \
@@ -23,7 +23,7 @@ description: |
   pyspark dask spacy transformers
   ```
 
-  The pre-installed kernel `ml-data-science-kernel-py310` and was creating using the following command:
+  The pre-installed kernel `ml-data-science-kernel-py310` and was created using the following command:
 
   ```
   CONDA_OVERRIDE_CUDA="11.2" mamba create \
