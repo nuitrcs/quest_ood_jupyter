@@ -87,6 +87,7 @@ function gengpu_and_h100() {
   slurm_gres_value.change(() => {
     if (($("#batch_connect_session_context_slurm_partition").val() === 'gengpu') && ($("#batch_connect_session_context_gres_value").val().includes("h100"))) {
       $("#batch_connect_session_context_constraint").val("rhel8")
+      $("#batch_connect_session_context_default_kernel").val("/software/rhel8/quest_ondemand/quest_ood_jupyter/rhel8-jupyter-new-ml-data-science.sif")
     } else if (($("#batch_connect_session_context_slurm_partition").val() === 'gengpu') && ($("#batch_connect_session_context_gres_value").val().includes("a100")) && ($("#batch_connect_session_context_constraint").val() === "rhel8")) {
       $("#batch_connect_session_context_constraint").val("")
     }
