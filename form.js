@@ -78,7 +78,20 @@ function is_kellogg() {
        true);
    }
 }
- 
+
+/**
+ *  If gengpu and H100, update the constraint to RHEL8
+ */
+function gengpu_and_h100() {
+  const slurm_gres_value = $("#batch_connect_session_context_gres_value");
+  slurm_gres_value.change(() => {
+    if (($("#batch_connect_session_context_slurm_partition").val() === 'gengpu') && ($("#batch_connect_session_context_gres_value").val().includes("h100"))) {
+      $("#batch_connect_session_context_constraint").val("rhel8")
+    } else if (($("#batch_connect_session_context_slurm_partition").val() === 'gengpu') && ($("#batch_connect_session_context_gres_value").val().includes("a100")) && ($("#batch_connect_session_context_constraint").val() === "rhel8")) {
+      $("#batch_connect_session_context_constraint").val("")
+    }
+  });
+}
 
 function get_associations() {
   const raw_data = $('#batch_connect_session_context_raw_data').val();
@@ -264,6 +277,7 @@ $(document).ready(function() {
   toggle_number_of_nodes_visibility();
   set_slurm_partition_change_handler();
   set_slurm_account_change_handler();
+  gengpu_and_h100();
   set_more_than_one_node_change_handler();
   collapse_help();
   $(function () {
