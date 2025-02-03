@@ -31,6 +31,11 @@
 
 # Find available port to run server on
 port=$(find_port localhost 7000 11000 )
+MLFLOW_PORT=$(find_port localhost 7000 11000 )
+OLLAMA_PORT=$(find_port localhost 7000 11000 )
+
+export MLFLOW_PORT
+export OLLAMA_PORT
 
 # Generate SHA1 encrypted password (requires OpenSSL installed)
 SALT="$(create_passwd 16)"
@@ -45,6 +50,7 @@ export CONFIG_FILE="${PWD}/config.py"
 export ssh_tunnel="ssh -L ${port}:localhost:${port} $USER@quest.northwestern.edu ssh -N -L ${port}:localhost:${port} ${host}"
 export connection_string="http://localhost:${port}/node/${host}/${port}/"
 export staged_root=<%= session.staged_root.join("connection.yml") %>
+export mlflow_port=$MLFLOW_PORT
 
 # Generate Jupyter configuration file with secure file permissions
 (

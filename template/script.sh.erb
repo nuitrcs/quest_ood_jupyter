@@ -31,6 +31,30 @@ then
 fi
 
 
+<%- elsif context.default_kernel == "/software/rhel8/quest_ondemand/quest_ood_codex/workshop-040825.sif" %>
+
+export TENSORBOARD_BINARY="/miniconda/envs/codex-workshop-py311/bin/tensorboard"
+export TENSORBOARD_PROXY_URL="/node/${host}/${port}/proxy/%PORT%/"
+
+/miniconda/envs/codex-workshop-py311/bin/mlflow server --host 0.0.0.0 --port $MLFLOW_PORT &
+export MLFLOW_TRACKING_URI="http://127.0.0.1:$MLFLOW_PORT"
+
+export OLLAMA_HOST=0.0.0.0:${OLLAMA_PORT} #what should our IP address be?
+
+#start Ollama service
+<%- if context.gres_value != "" %>
+ollama serve  &> serve_ollama_${SLURM_JOBID}.log &
+<%- else %>
+ollama serve --gpu &> serve_ollama_${SLURM_JOBID}.log &
+<%- end %>
+
+eval "$(/miniconda/bin/conda shell.bash hook)"
+
+if [[ `which conda` != "/miniconda/bin/conda" ]]
+then
+    export PATH="/miniconda/bin:$PATH"
+fi
+
 <%- elsif context.default_kernel == "/software/rhel8/quest_ondemand/quest_ood_jupyter/niche-compass/nichecompass_jupyter.sif" %>
 
 eval "$(/opt/conda/bin/conda shell.bash hook)"

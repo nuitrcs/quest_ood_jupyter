@@ -18,12 +18,22 @@
   }
 </script>
 
-<form id="<%= form_id %>" action="<%= full_url %>" method="post" target="_blank" onsubmit="changeTarget()" >
-  <input type="hidden" name="password" value="<%= password %>">
-  <button class="btn btn-primary" type="submit">
-    <i class="fa fa-cogs"></i> Connect to Jupyter
-  </button>
-</form>
+<div class="row">
+  <div class="col-md-4">
+    <form id="<%= form_id %>" action="<%= full_url %>" method="post" target="_blank" onsubmit="changeTarget()" >
+      <input type="hidden" name="password" value="<%= password %>">
+      <button class="btn btn-primary" type="submit">
+        <i class="fa fa-cogs"></i> Connect to Jupyter
+      </button>
+    </form>
+  </div>
+
+  <div class="col-md-4">
+    <a class="btn btn-primary" target="_blank" href="/rnode/<%= host %>/<%= mlflow_port %>/">
+      <i class="fa fa-star"></i> Connect to MLFlow UI
+    </a>
+  </div>
+</div>
 <p>
 To connect to this jupyter server in your own local VSCode application, please open a terminal on your local computer and run the following command: <code><%= ssh_tunnel %></code>
 <p>
