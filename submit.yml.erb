@@ -59,7 +59,10 @@ batch_connect:
     export SING_BINDS="--bind /software:/software --bind /hpc/software:/hpc/software "
 
     ## bind some extra stuff to be able to talk to slurm from within the container
-    export SING_BINDS="$SING_BINDS -B /etc/passwd -B /etc/slurm -B `which sbatch ` -B `which srun ` -B `which sacct ` -B `which scontrol ` -B `which salloc ` -B /usr/lib64/slurm/ -B /usr/lib64/libmunge.so.2 -B /usr/lib64/libmunge.so.2.0.0 "
+    if grep -q $USER /etc/passwd; then
+        export SING_BINDS="$SING_BINDS -B /etc/passwd "
+    fi
+    export SING_BINDS="$SING_BINDS -B /etc/slurm -B `which sbatch ` -B `which srun ` -B `which sacct ` -B `which scontrol ` -B `which salloc ` -B /usr/lib64/slurm/ -B /usr/lib64/libmunge.so.2 -B /usr/lib64/libmunge.so.2.0.0 "
 
     # only bind /kellogg is individual is part of kellogg group
     export SING_BINDS="$SING_BINDS <%= groups.include?('kellogg') ? "--bind /kellogg/:/kellogg/" : "" %>"
