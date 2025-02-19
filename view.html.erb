@@ -28,11 +28,13 @@
     </form>
   </div>
 
+<%- if default_kernel == "/software/rhel8/quest_ondemand/quest_ood_codex/workshop-040825.sif" %>
   <div class="col-md-4">
     <a class="btn btn-primary" target="_blank" href="/rnode/<%= host %>/<%= mlflow_port %>/">
       <i class="fa fa-star"></i> Connect to MLFlow UI
     </a>
   </div>
+<%- end %>
 </div>
 <p>
 To connect to this jupyter server in your own local VSCode application, please open a terminal on your local computer and run the following command: <code><%= ssh_tunnel %></code>

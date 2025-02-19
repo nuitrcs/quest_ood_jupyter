@@ -51,6 +51,7 @@ export ssh_tunnel="ssh -L ${port}:localhost:${port} $USER@quest.northwestern.edu
 export connection_string="http://localhost:${port}/node/${host}/${port}/"
 export staged_root=<%= session.staged_root.join("connection.yml") %>
 export mlflow_port=$MLFLOW_PORT
+export default_kernel=<%= context.default_kernel %>
 
 # Generate Jupyter configuration file with secure file permissions
 (

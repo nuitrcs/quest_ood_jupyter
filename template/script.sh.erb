@@ -42,11 +42,7 @@ export MLFLOW_TRACKING_URI="http://127.0.0.1:$MLFLOW_PORT"
 export OLLAMA_HOST=0.0.0.0:${OLLAMA_PORT} #what should our IP address be?
 
 #start Ollama service
-<%- if context.gres_value != "" %>
-ollama serve  &> serve_ollama_${SLURM_JOBID}.log &
-<%- else %>
-ollama serve --gpu &> serve_ollama_${SLURM_JOBID}.log &
-<%- end %>
+ollama serve &> <%= session.staged_root %>/serve_ollama_${SLURM_JOBID}.log &
 
 eval "$(/miniconda/bin/conda shell.bash hook)"
 
