@@ -60,10 +60,10 @@ batch_connect:
     export SING_BINDS="--bind /software:/software --bind /hpc/software:/hpc/software "
 
     ## bind some extra stuff to be able to talk to slurm from within the container
-    if grep -q $USER /etc/passwd; then
-        export SING_BINDS="$SING_BINDS -B /etc/passwd "
-    fi
-    export SING_BINDS="$SING_BINDS -B /etc/slurm -B `which sbatch ` -B `which srun ` -B `which sacct ` -B `which scontrol ` -B `which salloc ` -B /usr/lib64/slurm/ -B /usr/lib64/libmunge.so.2 -B /usr/lib64/libmunge.so.2.0.0 "
+    export SING_BINDS="$SING_BINDS -B /etc/slurm -B `which sbatch ` -B `which srun ` -B `which sacct ` -B `which scontrol ` -B `which salloc ` -B `which scancel ` -B `which squeue ` -B /usr/lib64/slurm/ -B /usr/lib64/libmunge.so.2 -B /usr/lib64/libmunge.so.2.0.0 -B /usr/lib64/libpmi2.so -B /usr/lib64/libpmi2.so.0 -B /usr/lib64/libpmi2.so.0.0.0 -B /usr/lib64/libpmi.so -B /usr/lib64/libpmi.so.0 -B /usr/lib64/libpmi.so.0.0.0 -B /usr/lib64/libnvidia-ml.so.1"
+
+    ## For the RHEL8 nodes
+    export SING_BINDS="$SING_BINDS -B /usr/local/pmix -B /usr/local/hwloc -B /usr/local/libevent -B /usr/local/spack_v20d1 -B /usr/local/ucx/ "
 
     # only bind /kellogg is individual is part of kellogg group
     export SING_BINDS="$SING_BINDS <%= groups.include?('kellogg') ? "--bind /kellogg/:/kellogg/" : "" %>"

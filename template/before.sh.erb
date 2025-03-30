@@ -47,7 +47,7 @@ PASSWORD_SHA1="$(echo -n "${password}${SALT}" | openssl dgst -sha1 | awk '{print
 export CONFIG_FILE="${PWD}/config.py"
 
 # This is for conn_params
-export ssh_tunnel="ssh -L ${port}:localhost:${port} $USER@quest.northwestern.edu ssh -N -L ${port}:localhost:${port} ${host}"
+export ssh_tunnel="ssh -L ${port}:localhost:${port} $USER@login.quest.northwestern.edu ssh -N -L ${port}:localhost:${port} ${host}"
 export connection_string="http://localhost:${port}/node/${host}/${port}/"
 export staged_root=<%= session.staged_root.join("connection.yml") %>
 export mlflow_port=$MLFLOW_PORT
