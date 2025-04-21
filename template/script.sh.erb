@@ -61,6 +61,12 @@ then
 fi
 source activate nicheenv 
 
+<%- elsif context.default_kernel == "/software/rhel8/quest_ondemand/quest_ood_jupyter/pyvista/pyvista.sif" %>
+
+export DISPLAY=:99.0
+export PYVISTA_OFF_SCREEN=true
+Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+
 <%- end %>
 
 <%- if context.jupyterlab_switch == "1" %>
