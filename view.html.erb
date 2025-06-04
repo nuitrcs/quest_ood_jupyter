@@ -8,6 +8,13 @@
   jupyter_connection_info = OodAppkit.files.url(path: staged_root).to_s
 %>
 
+<%# If py310 kernel, warn that there might be glibc errors %>
+<%- if default_kernel == "/software/openondemand/jupyter/jupyter-ood.sif" %>
+  <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border: 1px solid #f5c6cb; border-radius: 5px; margin-bottom: 20px;">
+    <%= "This is a light red box with some text in it." %>
+  </div>
+<%- end %>
+
 <!-- Zoom on iPad doesn't like opening in a new tab. It won't foward the form parameters. -->
 <script type="text/javascript">
   function changeTarget() {
