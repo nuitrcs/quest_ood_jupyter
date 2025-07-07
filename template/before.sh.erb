@@ -53,6 +53,12 @@ export staged_root=<%= session.staged_root.join("connection.yml") %>
 export mlflow_port=$MLFLOW_PORT
 export default_kernel=<%= context.default_kernel %>
 
+<%- if context.gres_value != "" %>
+# If the user requested a GPU, then we need to add this argument to our job submit command
+export number_of_gpu_cards=`nvidia-smi -L | grep -o 'NVIDIA.*' | wc -l`
+export type_of_gpu_cards=`nvidia-smi -L | grep -o 'NVIDIA.*' | awk '{print $1, $2, $3, $4}' | uniq | cut -d'(' -f1 | uniq`
+<%- end %>
+
 # Generate Jupyter configuration file with secure file permissions
 (
 umask 077

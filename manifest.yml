@@ -23,16 +23,6 @@ description: |
   pyspark dask spacy transformers
   ```
 
-  The pre-installed kernel `ml-data-science-kernel-py310` and was created using the following command:
-
-  ```
-  CONDA_OVERRIDE_CUDA="11.2" mamba create \
-  --name ml-data-science-kernel-py310 -c conda-forge \
-  tensorflow pytorch python=3.10 \
-  seaborn h5py numba pandas matplotlib ipykernel scikit-learn \
-  scikit-image openpyxl sqlalchemy numexpr \
-  pyspark dask spacy transformers cudatoolkit=11.2 --yes
-  ```
 
   [Jupyter]: https://jupyter.org/
   [creating an iPython kernel]: https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1791#ipython-kernels

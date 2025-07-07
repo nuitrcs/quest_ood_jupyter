@@ -18,6 +18,13 @@
   }
 </script>
 
+<%- if number_of_gpu_cards != nil %>
+<div>
+<p>Number of GPU Cards Per Node: <%= number_of_gpu_cards %></p>
+<p>NVIDIA GPU Card Type: <%= type_of_gpu_cards %></p>
+</div>
+<%- end %>
+
 <div class="row">
   <div class="col-md-4">
     <form id="<%= form_id %>" action="<%= full_url %>" method="post" target="_blank" onsubmit="changeTarget()" >
@@ -35,12 +42,13 @@
     </a>
   </div>
 <%- end %>
+
 </div>
 <p>
 To connect to this jupyter server in your own local VSCode application, please open a terminal on your local computer and run the following command: <code><%= ssh_tunnel %></code>
 <p>
 <p>
-Once you have done this, go to "Select Another Kernel", then select "Existing Jupyter Server", and paste  following URL: <code><%= connection_string %></code>
+Once you have done this, go to "Select Another Kernel", then select "Existing Jupyter Server", and paste following URL: <code><%= connection_string %></code>
 <p>
 <p>
 At this point, you will be asked for a password, which you can find here: <a href="<%= jupyter_connection_info %>">connection.yml</a> 
