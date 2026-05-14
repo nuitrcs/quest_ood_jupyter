@@ -5,6 +5,10 @@ category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: |
+  
+  This is a test! :-)
+  Hello world!
+
   This app will launch [Jupyter] Notebook or Lab on a Quest compute node. 
 
   The Jupyter session can use IPython Kernels that you have created yourself on Quest. For details on how to do this, please see [creating an iPython kernel].

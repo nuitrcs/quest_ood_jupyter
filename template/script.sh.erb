@@ -18,6 +18,19 @@ then
     export PATH="/miniconda/bin:$PATH"
 fi
 
+<%- elsif context.default_kernel == "/projects/a9009/tdm5510/tickets/test_jupyter_resource_usage/jupyter_resource_usage2.sif" %>
+
+export TENSORBOARD_BINARY="/miniconda/envs/mlds-kernel-py311-resource-usage/bin/tensorboard"
+export TENSORBOARD_PROXY_URL="/node/${host}/${port}/proxy/%PORT%/"
+
+eval "$(/miniconda/bin/conda shell.bash hook)"
+
+if [[ `which conda` != "/miniconda/bin/conda" ]]
+then
+    export PATH="/miniconda/bin:$PATH"
+fi
+
+
 <%- elsif context.default_kernel == "/software/rhel8/quest_ondemand/quest_ood_jupyter/rhel8-jupyter-new-ml-data-science.sif" %>
 
 export TENSORBOARD_BINARY="/miniconda/envs/ml-data-science-kernel-py311/bin/tensorboard"
@@ -69,8 +82,24 @@ Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 
 <%- end %>
 
+
 <%- if context.jupyterlab_switch == "1" %>
-jupyter lab --config="${CONFIG_FILE}"
+jupyter lab \
+  --config="${CONFIG_FILE}" \
+  --ResourceUseDisplay.mem_limit=<%= context.memory_per_node.to_i * 1024 * 1024 * 1024 %> \
+  --ResourceUseDisplay.cpu_limit=<%= context.num_cores %> \
+  --ResourceUseDisplay.track_cpu_percent=True \
+  --ResourceUseDisplay.show_host_usage=True
 <%- else %>
-jupyter nbclassic --config="${CONFIG_FILE}"
+jupyter nbclassic \
+  --config="${CONFIG_FILE}" \
+  --ResourceUseDisplay.mem_limit=<%= context.memory_per_node.to_i * 1024 * 1024 * 1024 %> \
+  --ResourceUseDisplay.cpu_limit=<%= context.num_cores %> \
+  --ResourceUseDisplay.track_cpu_percent=True \
+  --ResourceUseDisplay.show_host_usage=True
 <%- end %>
+
+ 
+
+
+
