@@ -6,14 +6,13 @@ subcategory: Servers
 role: batch_connect
 description: |
   
-  This is a test! :-)
-  Hello world!
-
   This app will launch [Jupyter] Notebook or Lab on a Quest compute node. 
 
   The Jupyter session can use IPython Kernels that you have created yourself on Quest. For details on how to do this, please see [creating an iPython kernel].
 
   You can now select between pre-installed IPython Kernel options.
+
+  The Jupyter app version for the pre-installed kernel `ml-data-science-kernel-py311` includes the [Jupyter resource usage plugin]. This will show your code's memory (RAM) and CPU utilization in a bar in Jupyter lab or notebook. Please be aware that the CPU utilization is given in terms of full utilization of one CPU core being 100%. Therefore, full utilization of multiple CPU cores would be shown as `number_of_requested_cores * 100%` (e.g. 400% for a 4 core job). You may also see information about the compute node running your job, such as it's total CPU or memory capacity. 
 
   The pre-installed kernel `ml-data-science-kernel-py311` and was created using the following command and should be used when leveraging the H100 GPUs.
 
@@ -30,3 +29,5 @@ description: |
 
   [Jupyter]: https://jupyter.org/
   [creating an iPython kernel]: https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1791#ipython-kernels
+  [Jupyter resource usage plugin]: https://github.com/jupyter-server/jupyter-resource-usage
+
