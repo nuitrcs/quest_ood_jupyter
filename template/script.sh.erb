@@ -76,6 +76,7 @@ jupyter lab \
   --config="${CONFIG_FILE}" \
   --ResourceUseDisplay.mem_limit=<%= context.memory_per_node.to_i * 1024 * 1024 * 1024 %> \
   --ResourceUseDisplay.cpu_limit=<%= context.num_cores %> \
+  --ResourceUseDisplay.mem_warning_threshold=0.1 \
   --ResourceUseDisplay.track_cpu_percent=True \
   --ResourceUseDisplay.show_host_usage=True
 <%- else %>
@@ -83,6 +84,7 @@ jupyter nbclassic \
   --config="${CONFIG_FILE}" \
   --ResourceUseDisplay.mem_limit=<%= context.memory_per_node.to_i * 1024 * 1024 * 1024 %> \
   --ResourceUseDisplay.cpu_limit=<%= context.num_cores %> \
+  --ResourceUseDisplay.mem_warning_threshold=0.1 \
   --ResourceUseDisplay.track_cpu_percent=True \
   --ResourceUseDisplay.show_host_usage=True
 <%- end %>
