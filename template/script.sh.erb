@@ -18,20 +18,8 @@ then
     export PATH="/miniconda/bin:$PATH"
 fi
 
-<%- elsif context.default_kernel == "/projects/a9009/tdm5510/tickets/test_jupyter_resource_usage/jupyter_resource_usage3.sif" %>
 
-export TENSORBOARD_BINARY="/miniconda/envs/mlds-kernel-py311-resource-usage/bin/tensorboard"
-export TENSORBOARD_PROXY_URL="/node/${host}/${port}/proxy/%PORT%/"
-
-eval "$(/miniconda/bin/conda shell.bash hook)"
-
-if [[ `which conda` != "/miniconda/bin/conda" ]]
-then
-    export PATH="/miniconda/bin:$PATH"
-fi
-
-
-<%- elsif context.default_kernel == "/software/rhel8/quest_ondemand/quest_ood_jupyter/rhel8-jupyter-new-ml-data-science.sif" %>
+<%- elsif context.default_kernel == "/software/rhel8/quest_ondemand/quest_ood_jupyter/jupyter-ml-data-science-resource-usage.sif" %>
 
 export TENSORBOARD_BINARY="/miniconda/envs/ml-data-science-kernel-py311/bin/tensorboard"
 export TENSORBOARD_PROXY_URL="/node/${host}/${port}/proxy/%PORT%/"
