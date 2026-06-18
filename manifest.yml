@@ -6,7 +6,7 @@ subcategory: Servers
 role: batch_connect
 description: |
   
-  This app will launch [Jupyter] Notebook or Lab on a Quest compute node. 
+  This app will launch [Jupyter] Notebook or Lab on a Quest compute node.
 
   The Jupyter session can use IPython Kernels that you have created yourself on Quest. For details on how to do this, please see [creating an iPython kernel].
 
@@ -25,9 +25,12 @@ description: |
   scikit-image openpyxl sqlalchemy numexpr \
   pyspark dask spacy transformers
   ```
+  
+  A `.yml` file containing the versions of packages in the pre-installed kernel `ml-data-science-kernel-py311` can be found on our [Github repository].
 
 
   [Jupyter]: https://jupyter.org/
   [creating an iPython kernel]: https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1791#ipython-kernels
   [Jupyter resource usage plugin]: https://github.com/jupyter-server/jupyter-resource-usage
+  [Github repository]: https://github.com/nuitrcs/quest_ood_jupyter
 
