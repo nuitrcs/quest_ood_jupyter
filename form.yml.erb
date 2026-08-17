@@ -27,6 +27,8 @@ form:
   - jupyterlab_switch
   # What folder do you want to server as the notebook "root" directory
   - notebook_directory_root
+  # Optional path to a user conda/mamba env whose activate.d should be sourced
+  - user_env_path
   # User can supply e-mail if they would like to be e-mailed when the session begins
   - user_email
   # Allow the user to provide a Slurm "constraint" option
@@ -69,6 +71,12 @@ attributes:
     value: ""
     help: |
       If you leave this blank, Jupyter will run from your HOME folder. Otherwise, specify a full PATH to a folder on Quest. This is important to consider if running Jupyter Notebook as it limits the folders and files that Jupyter can see.
+
+  user_env_path:
+    label: "Path to your conda/mamba environment (Optional)"
+    value: ""
+    help: |
+      If specified, the OnDemand launcher will source every script in `<env>/etc/conda/activate.d/` before starting Jupyter. This is how CUDA-related variables like `LD_LIBRARY_PATH` and `CUDA_HOME` (typically set by a conda env's activation hooks) become visible to Jupyter and to every kernel it spawns. Provide the full path to the env root, e.g. `/home/<netid>/mambaforge/envs/myenv` or `/projects/<group>/envs/myenv`. Leave blank if you don't need this.
 
   bc_num_hours:
     label: "Wall Time (in number of hours)"
