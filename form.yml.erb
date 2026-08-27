@@ -5,6 +5,8 @@
 cluster: "quests"
 
 form:
+  # Fruit
+  - fruit
   # Different containers have different kernels installed
   - default_kernel
   # This allows the user to select which partition they submit to
@@ -36,8 +38,15 @@ form:
   # these variables are for the JavaScript
   - raw_data
   - raw_group_data
+  - raw_fruit_data
 
 attributes:
+  fruit:
+    label: "Fruit"
+    help: "Fruit"
+    widget: select
+    display: true
+ 
   default_kernel:
     label: "Pre-Installed Kernel"
     help: |
@@ -157,3 +166,12 @@ attributes:
     widget: hidden_field
     value: "<%= RawSlurmData.rawgroupdata %>"
     cacheable: false
+
+  raw_fruit_data:
+    label: "fruit data for use by JavaScript"
+    widget: hidden_field
+    value: "<%= RawSlurmData.read_fruit_from_file %>"
+    cacheable: false
+
+
+

@@ -113,7 +113,7 @@ function get_associations() {
                       max_mem: MEMORY,
                       max_cpus: CPUS,
                       feature: FEATURE});
-    } else if (GROUPS.includes("all") && (general_access_allocations.length !== 0) && (PARTITION !== 'a9009') && (PARTITION !== 'buyin-dev')) {
+    } else if (GROUPS.includes("all") && !PARTITION.startsWith("b") && (general_access_allocations.length !== 0) && (PARTITION !== 'a9009') && (PARTITION !== 'buyin-dev')) {
         for (let gen_access of general_access_allocations) {
             assocs.push({ partition: PARTITION.replace('*', ''),
                           account: gen_access,
@@ -137,6 +137,13 @@ function get_associations() {
   }
   return assocs;
 }
+
+
+function get_fruits() {
+  const raw_data = $('#batch_connect_session_context_raw_fruit_data').val();
+  return raw_data.trim().split(/\s+/).filter(x => x);
+}
+
 
 function replace_options($select, new_options) {
   const old_selection = $select.val();
@@ -252,6 +259,13 @@ function set_available_partitions() {
   replace_options($("#batch_connect_session_context_slurm_partition"), partitions);
 }
 
+
+function set_available_fruits() {
+  const fruits = get_fruits();
+  replace_options($("#batch_connect_session_context_fruit"), fruits);
+}
+
+
 function collapse_help() {
   var help_message = $( '.form-text.text-muted' );
   $.each(help_message, function(index) {
@@ -270,6 +284,7 @@ function collapse_help() {
  */
 $(document).ready(function() {
   set_available_partitions();
+  set_available_fruits();
   // Update available options appropriately
   let assocs = update_available_options();
   // Ensure that fields are shown or hidden based on what was set in the last session

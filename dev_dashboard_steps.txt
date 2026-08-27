@@ -1,0 +1,109 @@
+# Setup dev dashboard in OOD
+# Last updated : Aug 2026, Julia 
+
+# Hopefully this is reproducible, let me know if its not 
+# Mostly following this: 
+# https://osc.github.io/ood-documentation/latest/tutorials/tutorials-dashboard-apps/dashboard.html#create-a-development-dashboard
+
+# Clone ondemand code into your home directory 
+# and symlink to dashboard folder in dev location
+$ cd ~/ondemand/
+$ mkdir misc
+$ cd misc/
+$ git clone git@github.com:OSC/ondemand.git
+$ cd ../dev
+$ ln -s ../misc/ondemand/apps/dashboard/ dashboard
+$ cd dashboard/
+
+# Get older ondemand version matching with prod
+# and make a local dev branch
+$ git checkout v3.0.3
+$ git checkout -b dev_work
+
+# This is a hack, but make a conda environment 
+# and install yaml into it 
+# I put mine in ~/ondemand/dev
+$ mamba create --prefix=./ruby_yaml_dep yaml=0.2.5
+
+# Now we need to build the dashboard ruby stuff
+# Important: do this next part on qondemand1
+
+# From qondemand1, set some bundle config stuff
+# this installs the ruby stuff into your home directory 
+# so it doesn't effect prod
+# You want to be in the directory ~/ondemand/dev/dashboard
+$ bundle config set --local path 'vendor/bundle'
+
+# this tells a particular annoying ruby dependency to use the yaml
+# package you installed in the conda environment
+$ bundle config set --local build.psych "--with-libyaml-include=~/ondemand/dev/ruby_yaml_dep/include --with-libyaml-lib=~/ondemand/dev/ruby_yaml_dep/lib"
+
+# this installs the ruby stuff, it might take a while 
+$ bundle install
+
+# this sets up the dashboard app, might also take a while 
+$ bin/setup 
+
+# You should now be able to go to OnDemand 
+# Home > My Sandbox Apps (Development) > Ood Dashboard
+# and do things like Launch or Restart the app 
+# When debugging stuff its helpful to Restart the app here 
+# or Restart the Web Server within the dev dashboard 
+
+# still on qondemand1, copy some our quest OOD landing page into
+# the dev dashboard
+$ cp /etc/ood/config/apps/dashboard/views/widgets/_hello_world.html app/views/widgets/
+
+# From here on out you shouldn't really need 
+# to be on qondemand1 anymore. We only needed the 
+# ruby and java toolchain over there which was a pain 
+# to try to match on Quests login nodes 
+
+# Create a file in ~/ondemand/dev/dashboard called .env.local 
+# with the following line 
+# just so you don't get the dev and prod dashboards confused 
+# this can have other config stuff in it too
+OOD_BRAND_BG_COLOR='black'
+
+# Now you should be able to test dev initializers in the dev dashboard 
+# Anything you put in the directory ~/ondemand/dev/dashboard/config/initializers
+# will get run at the time of starting a dev dashboard session or restarting 
+# the dev dashboard web server 
+
+# Now if our dev dashboards are setup the same way, you should 
+# be able to use the job submission forms for dev apps in the sandbox
+# of the dev dashboard 
+# For example, I made a branch of the jupyter app called 
+# dev_app_fruit_initializer_example
+# check it out 
+$ cd ~/ondemand/dev/quest_ood_jupyter
+$ git checkout dev_app_fruit_initializer_example
+
+# Copy the my_fruit_initializer.rb to your dev dashboard
+# initializer folder 
+$ cp my_fruit_initializer.rb ~/ondemand/dev/dashboard/config/initializers
+
+# Now your dev dashboard has a new initializer 
+# It should run if you restart your webserver in the dev dashboard 
+# To check if it ran properly, see if you have the following files
+# in your home directory:
+$ ls ~ -lta | head
+-rw-r--r-- tdm5510 Aug 26 .TEST_fruits.txt
+-rw-r--r-- tdm5510 Aug 26 .TEST_groupdata_ondemand_out.txt
+-rw-r--r-- tdm5510 Aug 26 .TEST_sinfo_ondemand_out.txt
+
+# In your dev ondemand dashboard, go to My Sandbox Apps (Development)
+# and select Launch Jupyter. The first dropdown menu for the job 
+# submission form should now be fruit. And if you add a fruit to 
+# the file ~/.TEST_fruits.txt and refresh your web browser page
+# the new fruit shoul get added to the dropdown menu
+
+# The fruit thing was just an example of how we use initializers 
+# to populate on the fly the job submission forms. form.js and 
+# form.yml.erb are also involved, and you can view my edits to those
+# in the dev_app_fruit_initializer_example branch of the jupyter app
+
+
+
+
+
