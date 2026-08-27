@@ -113,7 +113,7 @@ function get_associations() {
                       max_mem: MEMORY,
                       max_cpus: CPUS,
                       feature: FEATURE});
-    } else if (GROUPS.includes("all") && !PARTITION.startsWith("b") && (general_access_allocations.length !== 0) && (PARTITION !== 'a9009') && (PARTITION !== 'buyin-dev')) {
+    } else if (GROUPS.includes("all") && (general_access_allocations.length !== 0) && (PARTITION !== 'a9009') && (PARTITION !== 'buyin-dev')) {
         for (let gen_access of general_access_allocations) {
             assocs.push({ partition: PARTITION.replace('*', ''),
                           account: gen_access,
