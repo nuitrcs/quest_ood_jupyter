@@ -73,6 +73,31 @@ Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 <%- end %>
 
 
+# ---------------------------------------------------------------------------
+# Optional: source activate.d scripts from a user-supplied conda/mamba env.
+# When set, Jupyter (and every kernel it spawns as a child process) inherits
+# the environment variables produced by those scripts — most importantly
+# LD_LIBRARY_PATH, CUDA_HOME, and any NVIDIA library paths configured by the
+# env's activation hooks. Fixes CUDA-not-found errors in kernels registered
+# via `python -m ipykernel install --user`.
+# ---------------------------------------------------------------------------
+if [ -n "${user_env_path}" ]; then
+    if [ -d "${user_env_path}/etc/conda/activate.d" ]; then
+        echo "TIMING - Sourcing activate.d from ${user_env_path} at: $(date)"
+        export CONDA_PREFIX="${user_env_path}"
+        for f in "${user_env_path}/etc/conda/activate.d"/*.sh; do
+            if [ -f "$f" ]; then
+                echo "  Sourcing: $f"
+                # shellcheck disable=SC1090
+                source "$f"
+            fi
+        done
+    else
+        echo "WARNING: user_env_path='${user_env_path}' has no etc/conda/activate.d directory; skipping." >&2
+    fi
+fi
+
+
 <%- if context.jupyterlab_switch == "1" %>
 jupyter lab \
   --config="${CONFIG_FILE}" \

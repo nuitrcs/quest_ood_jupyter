@@ -52,6 +52,7 @@ export connection_string="http://localhost:${port}/node/${host}/${port}/"
 export staged_root=<%= session.staged_root.join("connection.yml") %>
 export mlflow_port=$MLFLOW_PORT
 export default_kernel=<%= context.default_kernel %>
+export user_env_path="<%= context.user_env_path %>"
 
 <%- if context.gres_value != "" %>
 # If the user requested a GPU, then we need to add this argument to our job submit command
