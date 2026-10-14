@@ -30,7 +30,7 @@ description: |
 
 
   [Jupyter]: https://jupyter.org/
-  [creating an iPython kernel]: https://services.northwestern.edu/TDClient/30/Portal/KB/ArticleDet?ID=1791#ipython-kernels
+  [creating an iPython kernel]: https://rcdsdocs.it.northwestern.edu/tutorials/software-management/conda-mamba-quest/mamba-conda-quest.html#accessing-environments-in-jupyter
   [Jupyter resource usage plugin]: https://github.com/jupyter-server/jupyter-resource-usage
   [Github repository]: https://github.com/nuitrcs/quest_ood_jupyter
 
