@@ -82,7 +82,19 @@ batch_connect:
     <%- end %>
 
     ## job specific tmp dir
-    export SING_BINDS=" $SING_BINDS -B ${WORKDIR}/tmp:/tmp " 
+    export SING_BINDS=" $SING_BINDS -B ${WORKDIR}/tmp:/tmp "  
+    
+    ## if a gpu job, add Vulkan support by binding the relevant host libraries
+    <%- if gres_value != "" %>
+    for f in /usr/lib64/libvulkan.so.1 /usr/lib64/libnvidia-gpucomp.so.*; do
+        [ -e "$f" ] && export SING_BINDS="$SING_BINDS -B $f"
+    done
+    ## Vulkan also needs a nvidia_icd.json file. This is now in template/ which    
+    ## OnDemand copies into the staged session folder (the pwd at the point this    
+    ## code runs)
+    export SINGULARITYENV_VK_DRIVER_FILES="${PWD}/nvidia_icd.json"
+    export SINGULARITYENV_VK_ICD_FILENAMES="${PWD}/nvidia_icd.json"
+    <%- end %>
 
     singularity exec $SING_GPU $SING_BINDS "${container_image}" /bin/bash container.sh
 
